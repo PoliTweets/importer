@@ -4,28 +4,35 @@ using Newtonsoft.Json;
 
 namespace PoliticalTweetsImporter
 {
-    public sealed class DjangoContainer
+    public sealed class DjangoContainer<T>
     {
         [JsonProperty( PropertyName = "pk", NullValueHandling = NullValueHandling.Include )]
-        public string PrimaryKey { get; } = null;
+        public string PrimaryKey { get; set; } = null;
 
         [JsonProperty( PropertyName = "model" )]
-        public string ModelName { get; }
+        public string ModelName { get; set; }
 
         [JsonProperty( PropertyName = "fields" )]
-        public object Value { get; }
+        public T Value { get; set; }
 
 
-        public DjangoContainer( string modelName, object value )
+        public DjangoContainer( string modelName, T value )
         {
             ModelName = "politweets." + modelName;
             Value = value;
         }
+    }
 
-
-        public static string Wrap( string modelName, IEnumerable<object> values )
+    public static class DjangoContainer
+    {
+        public static string Wrap<T>( string modelName, IEnumerable<T> values )
         {
-            return JsonConvert.SerializeObject( values.Select( v => new DjangoContainer( modelName, v ) ), Formatting.Indented );
+            return JsonConvert.SerializeObject( values.Select( v => new DjangoContainer<T>( modelName, v ) ), Formatting.Indented );
+        }
+
+        public static IEnumerable<T> Unwrap<T>( string json )
+        {
+            return JsonConvert.DeserializeObject<IEnumerable<DjangoContainer<T>>>( json ).Select( c => c.Value ).ToArray();
         }
     }
 }

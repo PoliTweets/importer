@@ -10,6 +10,9 @@ namespace PoliticalTweetsImporter.Models
         [JsonProperty( PropertyName = "full_party_name" )]
         public string PartyName { get; }
 
+        [JsonProperty( PropertyName = "party_name" )]
+        public string GroupedPartyName { get; set; }
+
         [JsonProperty( PropertyName = "canton" )]
         public string CantonName { get; }
 
