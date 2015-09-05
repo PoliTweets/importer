@@ -1,0 +1,17 @@
+# User-specific files
+*.vs
+
+# NuGet packages
+[Pp]ackages/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# NuGet build results
+*.nupkg
+
+# VS test results
+TestResults/
